@@ -309,16 +309,23 @@ days_diff = (วันนี้ - START_DATE) + 1
     คลิกขวาที่โฟลเดอร์ Task Scheduler Library
 
     เลือกเมนู Create Task...
+<img width="361" height="307" alt="Screenshot 2026-02-07 080354" src="https://github.com/user-attachments/assets/1ff8c111-d057-46e7-8c2d-84feb19c269a" />
+
 
 #### 2. ตั้งค่าทั่วไป (General)
 
     Name: ตั้งชื่อ Task (เช่น auto submit)
+
+<img width="488" height="147" alt="Screenshot 2026-02-07 080412" src="https://github.com/user-attachments/assets/133aab27-4252-45ed-a9df-4afbc0c263a0" />
 
     Security options:
 
         เลือก 🔘 Run whether user is logged on or not (เพื่อให้โปรแกรมทำงานเบื้องหลังได้ แม้จะ Lock หน้าจออยู่)
 
         Configure for: เลือก Windows 10
+        
+<img width="789" height="165" alt="Screenshot 2026-02-07 080448" src="https://github.com/user-attachments/assets/a80c780f-e478-4975-95b7-9a3c442cf8c3" />
+
 
 #### 3. ตั้งเวลาทำงาน (Triggers)
 
@@ -336,8 +343,16 @@ days_diff = (วันนี้ - START_DATE) + 1
     Recur every:
         1 days
 
+<img width="733" height="633" alt="Screenshot 2026-02-07 080509" src="https://github.com/user-attachments/assets/5bd8e806-0874-4966-abfd-e6067c19f7e9" />
+
+
     (เผื่อระบบรีสตาร์ท) At startup:
         เพิ่ม Trigger อีกอัน เลือก Begin the task: At startup
+
+<img width="730" height="648" alt="Screenshot 2026-02-07 080521" src="https://github.com/user-attachments/assets/96a96bd6-cc46-4c76-b790-4adffdda5ce5" />
+
+<img width="774" height="342" alt="Screenshot 2026-02-07 080531" src="https://github.com/user-attachments/assets/9da569bc-3b6b-4a6f-8bbb-4a18a89c4881" />
+
 
 เพื่อให้ระบบพยายามรันทันทีเมื่อเปิดเครื่องใหม่
 
@@ -354,15 +369,21 @@ days_diff = (วันนี้ - START_DATE) + 1
 
     (หากไม่ระบุช่องนี้ สคริปต์จะหาไฟล์รูปภาพหรือ config ไม่เจอ)
 
+<img width="566" height="361" alt="Screenshot 2026-02-07 080557" src="https://github.com/user-attachments/assets/14d285e2-8096-4a55-a9dc-0028b3d17b32" />
+
 #### 5. เงื่อนไขเพิ่มเติม (Conditions & Settings)
 
     Tab Conditions:
         ❌ ติ๊กออก Start the task only if the computer is on AC power (เพื่อให้ทำงานได้แม้ใช้แบตเตอรี่โน้ตบุ๊ก)
 
+<img width="462" height="207" alt="Screenshot 2026-02-07 080609" src="https://github.com/user-attachments/assets/771a2d28-3207-4580-bfe2-c0bcf30c93a5" />
+
     Tab Settings:
         ✅ ติ๊ก Allow task to be run on demand (เพื่อให้กด Run ทดสอบเองได้)
         ✅ ติ๊ก If the task fails, restart every: เลือก 5 minutes (ช่วยให้ระบบลองใหม่หากเน็ตหลุดหรือ Error)
         ✅ ติ๊ก Stop the task if it runs longer than: 3 days (ป้องกัน process ค้าง)
+    
+<img width="677" height="356" alt="Screenshot 2026-02-07 080640" src="https://github.com/user-attachments/assets/7fabdc27-6dd7-47bf-b0f6-b7ec3e78068b" />
 
 ## License
 
