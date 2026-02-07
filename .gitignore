@@ -1,0 +1,12 @@
+# Python caches
+__pycache__/
+*.py[cod]
+venv/
+
+# Logs & Error Screenshots
+*.log
+*.png
+debug_*.png
+
+# VS Code settings
+.vscode/
