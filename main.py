@@ -125,11 +125,49 @@ def run(playwright: Playwright) -> None:
         page.goto(AppConfig.COURSE_URL)
 
         try:
-            # ใช้ exact=False เพื่อหาแบบยืดหยุ่น (เผื่อมีเว้นวรรคเกิน)
-            page.get_by_role("link", name=target_link_name, exact=False).click()
-            log("✅ เจอลิงก์ส่งงานแล้ว")
-        except Exception:
-            msg = f"⚠️ Warning: หาลิงก์ '{target_link_name}' ของวันนี้ไม่เจอ\n(อาจารย์อาจจะยังไม่โพสต์ หรือชื่อลิงก์ผิด)"
+            # 1. เตรียมข้อมูลวันที่และปี
+            now = datetime.datetime.now()
+            target_day = str(now.day)  # "10"
+            target_year = str(now.year + 543)  # "2569"
+
+            # 2. สร้าง Pattern (Regex) สำหรับเช็คข้อความ
+            # ความหมาย: "ส่ง Bonus Challenge" ตามด้วย "10" ตามด้วย "/" ตามด้วย "เลขอะไรก็ได้" ตามด้วย "/2569"
+            import re
+
+            pattern = re.compile(rf"ส่ง Bonus Challenge {target_day}/\d+/{target_year}")
+
+            log(f"Drafting: กำลังหาลิงก์ที่ตรงกับ Pattern: {pattern.pattern}")
+
+            # 3. ดึงลิงก์ทั้งหมดมาก่อน แล้วค่อย Filter หาตัวที่ข้อความตรงกับ Regex
+            # วิธีนี้แก้ปัญหา InvalidSelectorError ได้แน่นอน
+            target_link = page.get_by_role("link").filter(has_text=pattern)
+
+            if target_link.count() > 0:
+                # เลือกตัวล่าสุด (เผื่ออาจารย์โพสต์แก้)
+                final_link = target_link.last
+                link_text = final_link.inner_text()
+
+                log(f"✅ เจอลิงก์ที่ตรงเงื่อนไข: '{link_text}'")
+                final_link.click()
+            else:
+                # fallback: ถ้าไม่เจอจริงๆ ให้ลองหาแบบไม่สนวันที่ (เอาตัวล่าสุดของทั้งหมด)
+                log("⚠️ ไม่เจอลิงก์ตรงวันที่เป๊ะๆ ลองหาตัวล่าสุดแทน...")
+                fallback_link = page.get_by_role("link", name="ส่ง Bonus Challenge").last
+                if fallback_link.is_visible():
+                    log(f"✅ คลิกตัวล่าสุดแทน: '{fallback_link.inner_text()}'")
+                    fallback_link.click()
+                else:
+                    raise Exception(f"ไม่พบลิงก์ส่งงานเลย")
+
+        except Exception as e:
+            msg = f"⚠️ Warning: หาลิงก์ไม่เจอ ({e})"
+            log(msg)
+            page.screenshot(path="error_link_not_found.png")
+            notify_discord(msg, success=False)
+            return
+
+        except Exception as e:
+            msg = f"⚠️ Warning: หาลิงก์ไม่เจอ ({e})"
             log(msg)
             page.screenshot(path="error_link_not_found.png")
             notify_discord(msg, success=False)
